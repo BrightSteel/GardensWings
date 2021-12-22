@@ -1,0 +1,11 @@
+name: gardens-wings
+version: 1.0.0
+author: Bright_Steel
+main: com.minecraftgardens.wings.Wings
+api-version: 1.18
+commands:
+  wings:
+    permission: gardens.wings
+    description: Gives player wings!
+    usage: /<command>
+#depend: can list plugins it depends on here, so that itll load that plugin first ie [Essentials, WorldEdit]
