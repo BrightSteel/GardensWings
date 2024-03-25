@@ -1,0 +1,4 @@
+rootProject.name = 'GardensWings'
+include ('spigot')
+include 'common'
+

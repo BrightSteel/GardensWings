@@ -1,0 +1,8 @@
+# strength of shift boosts while flying
+boostMultiplier: 2.5
+
+# strength of launch off of the ground
+launchModifier: 3.0
+
+wings:
+  unbreakable: true # whether wings should have unbreakable property

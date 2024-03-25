@@ -1,0 +1,10 @@
+name: GardensWings
+version: 1.0.0
+author: Bright_Steel
+main: com.gardensmc.wings.spigot.WingsSpigot
+api-version: 1.20
+commands:
+  wings:
+    permission: gardens.wings
+    description: Sprouts wings from your back
+    usage: /<command>
