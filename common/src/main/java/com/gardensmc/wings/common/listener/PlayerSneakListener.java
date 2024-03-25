@@ -13,13 +13,13 @@ public class PlayerSneakListener extends PlayerListener {
 
     @Override
     public void callListener() {
-        if (isGlidingWithWings()) {
+        if (isGlidingWithWingsAndCanBoost()) {
             player.spawnParticle(5);
             player.setVelocityMultiplier(GardensWings.wingsConfig.getBoostMultiplier());
         }
     }
 
-    private boolean isGlidingWithWings() {
+    private boolean isGlidingWithWingsAndCanBoost() {
         return player.isGliding()
                 && player.hasWingsEquipped()
                 && player.hasPermission(Permissions.useWingsBoost);
