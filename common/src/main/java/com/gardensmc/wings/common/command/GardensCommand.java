@@ -10,9 +10,9 @@ public abstract class GardensCommand {
     private final String name;
     protected final String permissionNode;
 
-    public GardensCommand(String name) {
+    public GardensCommand(String name, String permission) {
         this.name = name;
-        this.permissionNode = buildPermissionNode(name);
+        this.permissionNode = permission;
         Commands.addCommandToRegistry(this);
     }
 
@@ -22,8 +22,4 @@ public abstract class GardensCommand {
         }
     }
 
-    private String buildPermissionNode(String name) {
-        return "gardens." + name;
-    }
-    
 }

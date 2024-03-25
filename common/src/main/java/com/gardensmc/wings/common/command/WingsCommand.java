@@ -1,11 +1,12 @@
 package com.gardensmc.wings.common.command;
 
+import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.player.GardensPlayer;
 
 public class WingsCommand extends GardensCommand{
 
     public WingsCommand() {
-        super("wings");
+        super("wings", Permissions.spawnWings);
     }
 
     @Override
