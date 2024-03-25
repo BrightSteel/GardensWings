@@ -11,8 +11,6 @@ import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import java.util.Set;
-
 @SuppressWarnings("unused") // events look unused but are automatically called by Spigot
 public class PlayerListener extends SpigotListener {
 
@@ -46,10 +44,10 @@ public class PlayerListener extends SpigotListener {
     }
 
     @EventHandler
-    public void onPlayerJump(PlayerMoveEvent e) {
+    public void onPlayerSneakJump(PlayerMoveEvent e) {
         double velocity = Math.round(e.getPlayer().getVelocity().getY() * 100d) / 100d;
-        if (velocity == 0.42) { // jump velocity
-            new PlayerJumpListener(new SpigotPlayer(e.getPlayer())).callListener();
+        if (velocity == 0.42) { // jump velocity when sneaking ?
+            new PlayerSneakJumpListener(new SpigotPlayer(e.getPlayer())).callListener();
         }
     }
 

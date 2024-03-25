@@ -5,9 +5,9 @@ import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.listener.type.PlayerListener;
 import com.gardensmc.wings.common.player.GardensPlayer;
 
-public class PlayerJumpListener extends PlayerListener {
+public class PlayerSneakJumpListener extends PlayerListener {
 
-    public PlayerJumpListener(GardensPlayer gardensPlayer) {
+    public PlayerSneakJumpListener(GardensPlayer gardensPlayer) {
         super(gardensPlayer);
     }
 
