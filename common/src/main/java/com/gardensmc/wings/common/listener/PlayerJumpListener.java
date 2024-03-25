@@ -1,6 +1,7 @@
 package com.gardensmc.wings.common.listener;
 
 import com.gardensmc.wings.common.GardensWings;
+import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.listener.type.PlayerListener;
 import com.gardensmc.wings.common.player.GardensPlayer;
 
@@ -23,7 +24,7 @@ public class PlayerJumpListener extends PlayerListener {
     private boolean shouldLaunch() {
         return isLookingUp()
                 && player.hasWingsEquipped()
-                && player.hasPermission("gardens.wings");
+                && player.hasPermission(Permissions.useWingsLaunch);
     }
 
     private boolean isLookingUp() {
