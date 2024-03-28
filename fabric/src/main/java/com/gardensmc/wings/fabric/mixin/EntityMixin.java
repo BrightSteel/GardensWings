@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
+@SuppressWarnings({"DataFlowIssue", "unused"})
 public abstract class EntityMixin {
 
     @Inject(at = @At("TAIL"), method = "setSneaking")

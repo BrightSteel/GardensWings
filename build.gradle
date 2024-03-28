@@ -29,4 +29,9 @@ allprojects {
         maven { url 'https://repo.essentialsx.net/releases/' }
         maven { url 'https://jitpack.io' }
     }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    }
 }

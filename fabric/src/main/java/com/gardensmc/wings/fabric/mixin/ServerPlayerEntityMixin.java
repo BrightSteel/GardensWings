@@ -13,11 +13,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
+@SuppressWarnings({"DataFlowIssue", "unused"})
 public abstract class ServerPlayerEntityMixin {
 
     @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
     public void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> ci) {
-        // this should be a valid cast...
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) ((Object) this);
         source.getTypeRegistryEntry().getKey().ifPresent(damageTypeRegistryKey -> {
             FabricPlayer fabricPlayer = new FabricPlayer(serverPlayer);

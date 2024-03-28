@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
+@SuppressWarnings({"DataFlowIssue", "unused"})
 public abstract class PlayerEntityMixin  {
 
     @Inject(at = @At("HEAD"), method = "startFallFlying", cancellable = true)

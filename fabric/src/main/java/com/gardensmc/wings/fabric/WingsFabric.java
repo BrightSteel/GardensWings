@@ -3,15 +3,18 @@ package com.gardensmc.wings.fabric;
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.Commands;
 import com.gardensmc.wings.common.command.GardensCommand;
-import com.gardensmc.wings.fabric.config.FabricConfig;
+import com.gardensmc.wings.fabric.config.FabricConfigWrapper;
 import com.gardensmc.wings.fabric.player.FabricPlayer;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
 import java.util.Arrays;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
@@ -21,6 +24,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class WingsFabric implements ModInitializer {
 
     private static final String GENERIC_ARG = "arg";
+    public static final File GARDENS_CONFIG_DIR = new File(FabricLoader.getInstance().getConfigDir().toFile(), "GardensWings");
 
     @Override
     public void onInitialize() {
@@ -30,8 +34,7 @@ public class WingsFabric implements ModInitializer {
                         .then(argument(GENERIC_ARG, greedyString())
                                 .executes(context -> executeCommand(gardensCommand, context))
                         ))));
-
-        GardensWings.wingsConfig = new FabricConfig();
+        GardensWings.wingsConfig = new FabricConfigWrapper();
     }
 
     private int executeCommand(GardensCommand gardensCommand, CommandContext<ServerCommandSource> context) {
