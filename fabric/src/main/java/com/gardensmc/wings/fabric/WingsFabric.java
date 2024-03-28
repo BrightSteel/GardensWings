@@ -3,6 +3,7 @@ package com.gardensmc.wings.fabric;
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.Commands;
 import com.gardensmc.wings.common.command.GardensCommand;
+import com.gardensmc.wings.fabric.config.FabricConfig;
 import com.gardensmc.wings.fabric.player.FabricPlayer;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.api.ModInitializer;
@@ -30,7 +31,7 @@ public class WingsFabric implements ModInitializer {
                                 .executes(context -> executeCommand(gardensCommand, context))
                         ))));
 
-        GardensWings.wingsConfig = null;
+        GardensWings.wingsConfig = new FabricConfig();
     }
 
     private int executeCommand(GardensCommand gardensCommand, CommandContext<ServerCommandSource> context) {
