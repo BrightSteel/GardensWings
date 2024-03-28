@@ -53,7 +53,6 @@ public class FabricPlayer extends GardensPlayer {
 
     @Override
     public void setVelocityMultiplier(double multiplier) {
-        System.out.println("Doing");
         serverPlayer.setVelocity(getDirection().normalize().multiply(multiplier));
         serverPlayer.velocityModified = true;
     }
