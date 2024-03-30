@@ -5,4 +5,8 @@ boostMultiplier: 2.5
 launchModifier: 3.0
 
 wings:
+  displayName: "<!italic><aqua>Wings</aqua>"
+  lore:
+    - "<!italic><blue>Shift Boost</blue>"
+    - "<!italic><blue>Cushioning</blue>"
   unbreakable: true # whether wings should have unbreakable property

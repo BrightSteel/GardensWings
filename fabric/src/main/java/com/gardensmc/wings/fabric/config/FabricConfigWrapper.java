@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class FabricConfigWrapper implements WingsConfig {
 
@@ -34,6 +35,16 @@ public class FabricConfigWrapper implements WingsConfig {
     @Override
     public boolean isWingsUnbreakable() {
         return fabricConfig.getWings().isUnbreakable();
+    }
+
+    @Override
+    public String getWingsDisplayName() {
+        return fabricConfig.getWings().getDisplayName();
+    }
+
+    @Override
+    public List<String> getWingsLore() {
+        return fabricConfig.getWings().getLore();
     }
 
     @Override

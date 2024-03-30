@@ -8,11 +8,11 @@ public class PlayerMessageHandler {
     private final GardensPlayer gardensPlayer;
 
     public void sendMessage(String message) {
-        gardensPlayer.sendMessage("[GardensWings] " + message);
+        gardensPlayer.sendMessage("[GardensWings] <blue>" + message + "</blue>");
     }
 
     public void sendError(String message) {
-        gardensPlayer.sendMessage("[GardensWings] &c" + message);
+        gardensPlayer.sendMessage("[GardensWings] <red>" + message + "</red>");
     }
 
 }

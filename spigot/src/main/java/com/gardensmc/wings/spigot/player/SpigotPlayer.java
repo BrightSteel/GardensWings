@@ -1,10 +1,12 @@
 package com.gardensmc.wings.spigot.player;
 
+import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.player.GardensPlayer;
-import com.gardensmc.wings.spigot.items.ItemManager;
-import org.bukkit.ChatColor;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import com.gardensmc.wings.common.util.ChatUtil;
+import com.gardensmc.wings.spigot.WingsSpigot;
+import com.gardensmc.wings.spigot.wings.WingsFactory;
+import de.tr7zw.changeme.nbtapi.NBT;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,18 +29,18 @@ public class SpigotPlayer extends GardensPlayer {
         player.setGliding(isGliding);
     }
 
-    // todo - use nbt
     @Override
     public boolean hasWingsEquipped() {
         ItemStack chestPlate = player.getInventory().getChestplate();
         return chestPlate != null
+                && chestPlate.getType() == Material.ELYTRA
                 && chestPlate.getItemMeta() != null
-                && chestPlate.getItemMeta().equals(ItemManager.wings.getItemMeta());
+                && NBT.readNbt(chestPlate).hasTag(GardensWings.WINGS_IDENTIFIER);
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return player.hasPermission(permission);
+        return player.isOp() || player.hasPermission(permission);
     }
 
     // todo allow custom type
@@ -65,12 +67,17 @@ public class SpigotPlayer extends GardensPlayer {
 
     @Override
     public void addWingsToChestplateSlot() {
-        player.getInventory().setChestplate(ItemManager.wings);
+        player.getInventory().setChestplate(WingsFactory.createWings());
+    }
+
+    @Override
+    public void addWingsToInventory() {
+        player.getInventory().addItem(WingsFactory.createWings());
     }
 
     @Override
     public void sendMessage(String message) {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        WingsSpigot.getAdventure().player(player).sendMessage(ChatUtil.translateMiniMessage(message));
     }
 
     // todo return a location instead of just pitch?

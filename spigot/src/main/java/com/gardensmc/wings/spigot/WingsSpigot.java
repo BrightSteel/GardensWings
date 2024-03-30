@@ -4,12 +4,14 @@ import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.Commands;
 import com.gardensmc.wings.common.command.GardensCommand;
 import com.gardensmc.wings.common.command.exception.NoPermissionException;
+import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
 import com.gardensmc.wings.common.player.PlayerMessageHandler;
 import com.gardensmc.wings.spigot.config.SpigotConfig;
-import com.gardensmc.wings.spigot.items.ItemManager;
 import com.gardensmc.wings.spigot.listener.Listeners;
 import com.gardensmc.wings.spigot.player.SpigotPlayer;
+import com.gardensmc.wings.spigot.server.SpigotServer;
 import lombok.Getter;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
@@ -21,6 +23,9 @@ public class WingsSpigot extends JavaPlugin {
 
     @Getter
     private static WingsSpigot plugin;
+    // todo - paper implementation that doesn't use this ?
+    @Getter
+    private static BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
@@ -28,11 +33,14 @@ public class WingsSpigot extends JavaPlugin {
         saveDefaultConfig();
         plugin = this;
 
-        Commands.getCommands().forEach(this::registerCommand);
-        Listeners.registerListeners();
-        ItemManager.init();
+        adventure = BukkitAudiences.create(this);
 
         GardensWings.wingsConfig = new SpigotConfig(); // init config
+
+        Commands.getCommands().forEach(this::registerCommand);
+        Listeners.registerListeners();
+
+        GardensWings.initialize(new SpigotServer());
     }
 
     private void registerCommand(GardensCommand gardensCommand) {
@@ -57,6 +65,8 @@ public class WingsSpigot extends JavaPlugin {
                 gardensCommand.execute(spigotPlayer, args);
             } catch (NoPermissionException e) {
                 playerMessageHandler.sendError("You do not have permission to use this command!");
+            } catch (PlayerNotFoundException e) {
+                playerMessageHandler.sendError(String.format("Cannot find player '%s'", e.getUsername()));
             } catch (Exception e) {
                 playerMessageHandler.sendError("An internal server error occurred");
                 plugin.getLogger().log(

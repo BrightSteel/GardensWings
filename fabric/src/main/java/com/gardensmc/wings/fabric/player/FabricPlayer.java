@@ -1,14 +1,19 @@
 package com.gardensmc.wings.fabric.player;
 
+import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.player.GardensPlayer;
+import com.gardensmc.wings.common.util.ChatUtil;
+import com.gardensmc.wings.fabric.wings.WingsFactory;
+import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 public class FabricPlayer extends GardensPlayer {
 
+    private final int CHEST_PLATE_SLOT = 2;
     private final ServerPlayerEntity serverPlayer;
 
     public FabricPlayer(ServerPlayerEntity serverPlayer) {
@@ -32,13 +37,17 @@ public class FabricPlayer extends GardensPlayer {
 
     @Override
     public boolean hasWingsEquipped() {
-        // todo make this actually check for wings
-        return serverPlayer.getInventory().armor.get(2).getItem() == Items.ELYTRA;
+        ItemStack chestPlate = serverPlayer.getInventory().armor.get(CHEST_PLATE_SLOT);
+        if (chestPlate.getItem() != Items.ELYTRA) {
+            return false;
+        }
+        NbtCompound nbt = chestPlate.getNbt();
+        return nbt != null && nbt.contains(GardensWings.WINGS_IDENTIFIER);
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return true;
+        return serverPlayer.hasPermissionLevel(4) || Permissions.check(serverPlayer, permission);
     }
 
     @Override
@@ -54,7 +63,7 @@ public class FabricPlayer extends GardensPlayer {
     @Override
     public void setVelocityMultiplier(double multiplier) {
         serverPlayer.setVelocity(getDirection().normalize().multiply(multiplier));
-        serverPlayer.velocityModified = true;
+        serverPlayer.velocityModified = true; // sync to client
     }
 
     // copied from spigot
@@ -76,19 +85,22 @@ public class FabricPlayer extends GardensPlayer {
 
     @Override
     public boolean isChestplateSlotEmpty() {
-        return serverPlayer.getInventory().armor.get(2) == ItemStack.EMPTY;
+        return serverPlayer.getInventory().armor.get(CHEST_PLATE_SLOT) == ItemStack.EMPTY;
     }
 
     @Override
     public void addWingsToChestplateSlot() {
-        // todo actually make wings
-        ItemStack wings = new ItemStack(Items.ELYTRA, 1);
-        serverPlayer.getInventory().armor.set(2, wings);
+        serverPlayer.getInventory().armor.set(CHEST_PLATE_SLOT, WingsFactory.createWings());
+    }
+
+    @Override
+    public void addWingsToInventory() {
+        serverPlayer.getInventory().offerOrDrop(WingsFactory.createWings());
     }
 
     @Override
     public void sendMessage(String message) {
-        serverPlayer.sendMessage(Text.of(message));
+        serverPlayer.sendMessage(ChatUtil.translateMiniMessage(message));
     }
 
     @Override

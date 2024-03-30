@@ -33,5 +33,6 @@ allprojects {
     dependencies {
         compileOnly 'org.projectlombok:lombok:1.18.30'
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
+        implementation "net.kyori:adventure-text-minimessage:4.16.0"
     }
 }

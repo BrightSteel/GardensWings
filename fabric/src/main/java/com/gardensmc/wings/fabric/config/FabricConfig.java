@@ -8,6 +8,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 @Data
 public class FabricConfig {
@@ -19,6 +20,8 @@ public class FabricConfig {
 
     @Data
     public static class Wings {
+        private String displayName = "<!italic><blue>Wings</blue>";
+        private List<String> lore = List.of("<!italic><gold>Unbreakable wings!</gold>");
         private boolean isUnbreakable = true;
     }
 

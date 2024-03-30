@@ -30,6 +30,8 @@ public abstract class GardensPlayer {
 
     public abstract void addWingsToChestplateSlot();
 
+    public abstract void addWingsToInventory();
+
     public abstract void sendMessage(String message);
 
     public abstract float getPitch();
