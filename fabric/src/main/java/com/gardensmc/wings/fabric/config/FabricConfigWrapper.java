@@ -39,6 +39,11 @@ public class FabricConfigWrapper implements WingsConfig {
     }
 
     @Override
+    public int getBoostCooldown() {
+        return fabricConfig.getBoost().getCooldown();
+    }
+
+    @Override
     public boolean isLaunchSoundEnabled() {
         return fabricConfig.getLaunch().getSound().isEnabled();
     }
@@ -56,6 +61,11 @@ public class FabricConfigWrapper implements WingsConfig {
     @Override
     public boolean isWingsUnbreakable() {
         return fabricConfig.getWings().isUnbreakable();
+    }
+
+    @Override
+    public boolean isWingsEnchanted() {
+        return fabricConfig.getWings().isEnchantGlint();
     }
 
     @Override

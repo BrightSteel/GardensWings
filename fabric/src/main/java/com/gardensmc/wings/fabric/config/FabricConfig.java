@@ -24,6 +24,7 @@ public class FabricConfig {
         private String displayName = "<!italic><blue>Wings</blue>";
         private List<String> lore = List.of("<!italic><gold>Unbreakable wings!</gold>");
         private boolean isUnbreakable = true;
+        private boolean enchantGlint = true;
     }
 
     @Data
@@ -32,6 +33,7 @@ public class FabricConfig {
         private GardensParticle particle = new GardensParticle(
                 true, GardensParticle.ParticleType.FLAME, 5, 1
         );
+        private int cooldown = 0;
     }
 
     @Data

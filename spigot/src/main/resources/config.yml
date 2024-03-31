@@ -6,6 +6,7 @@ boost:
     count: 15
     particleType: FLAME
     speed: 1.0
+  # time in seconds required to wait between boosts; set to 0 to disable
   cooldown: 0
 # launch by holding shift, looking up, and jumping
 launch:

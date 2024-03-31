@@ -36,8 +36,10 @@ public class WingsFactory {
             meta.setUnbreakable(true);
         }
         // enchant glint
-        meta.addEnchant(Enchantment.DURABILITY, 1, false);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        if (wingsConfig.isWingsEnchanted()) {
+            meta.addEnchant(Enchantment.DURABILITY, 1, false);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
         // save metadata
         itemStack.setItemMeta(meta);
         return itemStack;

@@ -36,7 +36,7 @@ public class GardensParticle {
         private String fabricName, spigotName;
 
         public String getFabricName() {
-            return fabricName != null ? fabricName : this.name().toUpperCase();
+            return fabricName != null ? fabricName.toLowerCase() : this.name().toLowerCase();
         }
 
         public String getSpigotName() {

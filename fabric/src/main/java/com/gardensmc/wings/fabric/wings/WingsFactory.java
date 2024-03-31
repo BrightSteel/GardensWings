@@ -35,8 +35,10 @@ public class WingsFactory {
         // save display nbt
         nbt.put("display", displayNbt);
         // enchant glint
-        nbt.putInt("HideFlags", 1); // hide enchants
-        itemStack.addEnchantment(Enchantments.UNBREAKING, 1);
+        if (wingsConfig.isWingsEnchanted()) {
+            nbt.putInt("HideFlags", 1); // hide enchants
+            itemStack.addEnchantment(Enchantments.UNBREAKING, 1);
+        }
         return itemStack;
     }
 }

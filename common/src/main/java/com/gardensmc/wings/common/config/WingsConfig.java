@@ -8,10 +8,12 @@ public interface WingsConfig {
     double getBoostMultiplier();
     GardensParticle getBoostParticle();
     GardensParticle getLaunchParticle();
+    int getBoostCooldown();
     boolean isLaunchSoundEnabled();
     float getLaunchSoundVolume();
     double getLaunchMultiplier();
     boolean isWingsUnbreakable();
+    boolean isWingsEnchanted();
     String getWingsDisplayName();
     List<String> getWingsLore();
     void reload();

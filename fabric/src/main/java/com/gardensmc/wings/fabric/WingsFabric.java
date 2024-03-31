@@ -9,6 +9,7 @@ import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
 import com.gardensmc.wings.common.player.PlayerMessageHandler;
 import com.gardensmc.wings.fabric.config.FabricConfigWrapper;
 import com.gardensmc.wings.fabric.player.FabricPlayer;
+import com.gardensmc.wings.fabric.schedule.FabricScheduler;
 import com.gardensmc.wings.fabric.server.FabricServer;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
@@ -52,7 +53,7 @@ public class WingsFabric implements ModInitializer {
     }
 
     private void initializeWithServer(MinecraftServer server) {
-        GardensWings.initialize(new FabricServer(server));
+        GardensWings.initialize(new FabricServer(server), FabricScheduler.INSTANCE);
     }
 
     private int executeCommand(GardensCommand gardensCommand, CommandContext<ServerCommandSource> context) {

@@ -3,12 +3,14 @@ package com.gardensmc.wings.spigot;
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.Commands;
 import com.gardensmc.wings.common.command.GardensCommand;
+import com.gardensmc.wings.common.command.exception.InvalidArgumentException;
 import com.gardensmc.wings.common.command.exception.NoPermissionException;
 import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
 import com.gardensmc.wings.common.player.PlayerMessageHandler;
 import com.gardensmc.wings.spigot.config.SpigotConfig;
 import com.gardensmc.wings.spigot.listener.Listeners;
 import com.gardensmc.wings.spigot.player.SpigotPlayer;
+import com.gardensmc.wings.spigot.schedule.SpigotScheduler;
 import com.gardensmc.wings.spigot.server.SpigotServer;
 import lombok.Getter;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -40,7 +42,17 @@ public class WingsSpigot extends JavaPlugin {
         Commands.getCommands().forEach(this::registerCommand);
         Listeners.registerListeners();
 
-        GardensWings.initialize(new SpigotServer());
+        GardensWings.initialize(new SpigotServer(), new SpigotScheduler());
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        plugin = null;
+        if (adventure != null) {
+            adventure.close();
+            adventure = null;
+        }
     }
 
     private void registerCommand(GardensCommand gardensCommand) {
@@ -75,6 +87,8 @@ public class WingsSpigot extends JavaPlugin {
                 gardensCommand.execute(spigotPlayer, args);
             } catch (NoPermissionException e) {
                 playerMessageHandler.sendError("You do not have permission to use this command!");
+            } catch (InvalidArgumentException e) {
+                playerMessageHandler.sendError("Invalid argument!");
             } catch (PlayerNotFoundException e) {
                 playerMessageHandler.sendError(String.format("Cannot find player '%s'", e.getUsername()));
             } catch (Exception e) {
