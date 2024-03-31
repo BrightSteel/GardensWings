@@ -2,6 +2,7 @@ package com.gardensmc.wings.common.listener;
 
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.Permissions;
+import com.gardensmc.wings.common.config.WingsConfig;
 import com.gardensmc.wings.common.listener.type.PlayerListener;
 import com.gardensmc.wings.common.player.GardensPlayer;
 
@@ -13,10 +14,13 @@ public class PlayerSneakJumpListener extends PlayerListener {
 
     @Override
     public void callListener() {
+        WingsConfig wingsConfig = GardensWings.wingsConfig;
         if (shouldLaunch()) {
-            player.spawnParticle(5);
-            player.playSound();
-            player.setVelocityMultiplier(GardensWings.wingsConfig.getLaunchMultiplier());
+            player.spawnParticle(wingsConfig.getLaunchParticle());
+            if (wingsConfig.isLaunchSoundEnabled()) {
+                player.playSound(wingsConfig.getLaunchSoundVolume());
+            }
+            player.setVelocityMultiplier(wingsConfig.getLaunchMultiplier());
             player.setGliding(true);
         }
     }

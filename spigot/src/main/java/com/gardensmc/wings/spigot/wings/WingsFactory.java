@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class WingsFactory {
 
+    @SuppressWarnings("DataFlowIssue")
     public static ItemStack createWings() {
         WingsConfig wingsConfig = GardensWings.wingsConfig;
         ItemStack itemStack = new ItemStack(Material.ELYTRA);

@@ -3,6 +3,7 @@ package com.gardensmc.wings.common.listener;
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.listener.type.PlayerListener;
+import com.gardensmc.wings.common.particle.GardensParticle;
 import com.gardensmc.wings.common.player.GardensPlayer;
 
 public class PlayerSneakListener extends PlayerListener {
@@ -14,7 +15,7 @@ public class PlayerSneakListener extends PlayerListener {
     @Override
     public void callListener() {
         if (isGlidingWithWingsAndCanBoost()) {
-            player.spawnParticle(5);
+            player.spawnParticle(GardensWings.wingsConfig.getBoostParticle());
             player.setVelocityMultiplier(GardensWings.wingsConfig.getBoostMultiplier());
         }
     }

@@ -14,6 +14,7 @@ import lombok.Getter;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,8 +24,7 @@ public class WingsSpigot extends JavaPlugin {
 
     @Getter
     private static WingsSpigot plugin;
-    // todo - paper implementation that doesn't use this ?
-    @Getter
+    @Getter // todo - paper implementation that doesn't use this ?
     private static BukkitAudiences adventure;
 
     @Override
@@ -49,7 +49,17 @@ public class WingsSpigot extends JavaPlugin {
             getLogger().log(Level.SEVERE, "Failed to get command: " + gardensCommand.getName());
         } else {
             command.setExecutor(getCommandExecutor(gardensCommand));
+            command.setTabCompleter(getTabCompleter(gardensCommand));
         }
+    }
+
+    private TabCompleter getTabCompleter(GardensCommand gardensCommand) {
+        return (sender, command, label, args) -> {
+            if (!(sender instanceof Player player)) {
+                return null; // consoles can't tab-complete
+            }
+            return gardensCommand.getTabCompletion(new SpigotPlayer(player), args);
+        };
     }
 
     private CommandExecutor getCommandExecutor(GardensCommand gardensCommand) {

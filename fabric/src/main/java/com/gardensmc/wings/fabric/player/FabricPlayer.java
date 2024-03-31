@@ -1,14 +1,19 @@
 package com.gardensmc.wings.fabric.player;
 
 import com.gardensmc.wings.common.GardensWings;
+import com.gardensmc.wings.common.particle.GardensParticle;
 import com.gardensmc.wings.common.player.GardensPlayer;
 import com.gardensmc.wings.common.util.ChatUtil;
+import com.gardensmc.wings.fabric.particle.ParticleAdapter;
 import com.gardensmc.wings.fabric.wings.WingsFactory;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 
 public class FabricPlayer extends GardensPlayer {
@@ -51,13 +56,26 @@ public class FabricPlayer extends GardensPlayer {
     }
 
     @Override
-    public void spawnParticle(int count) {
-
+    public void spawnParticle(GardensParticle gardensParticle) {
+        serverPlayer.getServerWorld().spawnParticles(
+                ParticleAdapter.adaptParticle(gardensParticle.getParticleType()),
+                serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(),
+                gardensParticle.getCount(),
+                0, 0, 0,
+                gardensParticle.getSpeed()
+        );
     }
 
     @Override
-    public void playSound() {
-
+    public void playSound(float volume) {
+        serverPlayer.getServerWorld().playSound(
+                null,
+                serverPlayer.getBlockPos(),
+                SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE,
+                SoundCategory.PLAYERS,
+                volume,
+                1.0f
+        );
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.gardensmc.wings.common.command;
 
+import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.exception.NoPermissionException;
 import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
 import com.gardensmc.wings.common.player.GardensPlayer;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public abstract class GardensCommand {
@@ -30,4 +33,10 @@ public abstract class GardensCommand {
         }
     }
 
+    public List<String> getTabCompletion(GardensPlayer executor, String[] args) {
+        return GardensWings.getGardensServer().getOnlinePlayers()
+                .stream()
+                .map(GardensPlayer::getUsername)
+                .toList();
+    }
 }

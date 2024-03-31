@@ -1,9 +1,11 @@
 package com.gardensmc.wings.spigot.player;
 
 import com.gardensmc.wings.common.GardensWings;
+import com.gardensmc.wings.common.particle.GardensParticle;
 import com.gardensmc.wings.common.player.GardensPlayer;
 import com.gardensmc.wings.common.util.ChatUtil;
 import com.gardensmc.wings.spigot.WingsSpigot;
+import com.gardensmc.wings.spigot.particle.ParticleAdapter;
 import com.gardensmc.wings.spigot.wings.WingsFactory;
 import de.tr7zw.changeme.nbtapi.NBT;
 import org.bukkit.*;
@@ -43,16 +45,23 @@ public class SpigotPlayer extends GardensPlayer {
         return player.isOp() || player.hasPermission(permission);
     }
 
-    // todo allow custom type
     @Override
-    public void spawnParticle(int count) {
-        player.getWorld().spawnParticle(Particle.FLAME, player.getLocation(), count);
+    public void spawnParticle(GardensParticle particle) {
+        player.getWorld().spawnParticle(
+                ParticleAdapter.adaptParticle(particle.getParticleType()),
+                player.getLocation(),
+                particle.getCount()
+        );
     }
 
-    // todo allow custom sound type
     @Override
-    public void playSound() {
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1.0f, 1.0f);
+    public void playSound(float volume) {
+        player.getWorld().playSound(
+                player.getLocation(),
+                Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,
+                volume,
+                1.0f
+        );
     }
 
     @Override
@@ -80,7 +89,6 @@ public class SpigotPlayer extends GardensPlayer {
         WingsSpigot.getAdventure().player(player).sendMessage(ChatUtil.translateMiniMessage(message));
     }
 
-    // todo return a location instead of just pitch?
     @Override
     public float getPitch() {
         return player.getLocation().getPitch();

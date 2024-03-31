@@ -1,6 +1,7 @@
 package com.gardensmc.wings.spigot.config;
 
 import com.gardensmc.wings.common.config.WingsConfig;
+import com.gardensmc.wings.common.particle.GardensParticle;
 import com.gardensmc.wings.spigot.WingsSpigot;
 import org.bukkit.configuration.Configuration;
 
@@ -18,6 +19,16 @@ public class SpigotConfig implements WingsConfig {
     @Override
     public double getBoostMultiplier() {
         return configuration.getDouble("boostMultiplier");
+    }
+
+    @Override
+    public GardensParticle getBoostParticle() {
+        return null;
+    }
+
+    @Override
+    public GardensParticle getLaunchParticle() {
+        return null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.gardensmc.wings.common.player;
 
+import com.gardensmc.wings.common.particle.GardensParticle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,9 +21,9 @@ public abstract class GardensPlayer {
 
     public abstract boolean hasPermission(String permission);
 
-    public abstract void spawnParticle(int count);
+    public abstract void spawnParticle(GardensParticle particle);
 
-    public abstract void playSound();
+    public abstract void playSound(float volume);
 
     public abstract void setVelocityMultiplier(double multiplier);
 

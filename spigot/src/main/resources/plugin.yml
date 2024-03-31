@@ -5,6 +5,6 @@ main: com.gardensmc.wings.spigot.WingsSpigot
 api-version: 1.20
 commands:
   wings:
-    permission: gardens.wings
-    description: Sprouts wings from your back
-    usage: /<command>
+    permission: wings.get, wings.give, wings.reload
+    description: Get or give wings.
+    usage: /<command> [get|give|reload]

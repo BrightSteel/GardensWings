@@ -1,6 +1,7 @@
 package com.gardensmc.wings.fabric.config;
 
 import com.gardensmc.wings.common.config.WingsConfig;
+import com.gardensmc.wings.common.particle.GardensParticle;
 import com.gardensmc.wings.fabric.WingsFabric;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -24,12 +25,32 @@ public class FabricConfigWrapper implements WingsConfig {
 
     @Override
     public double getBoostMultiplier() {
-        return fabricConfig.getBoostMultiplier();
+        return fabricConfig.getBoost().getVelocityMultiplier();
+    }
+
+    @Override
+    public GardensParticle getBoostParticle() {
+        return fabricConfig.getBoost().getParticle();
+    }
+
+    @Override
+    public GardensParticle getLaunchParticle() {
+        return fabricConfig.getLaunch().getParticle();
+    }
+
+    @Override
+    public boolean isLaunchSoundEnabled() {
+        return fabricConfig.getLaunch().getSound().isEnabled();
+    }
+
+    @Override
+    public float getLaunchSoundVolume() {
+        return fabricConfig.getLaunch().getSound().getVolume();
     }
 
     @Override
     public double getLaunchMultiplier() {
-        return fabricConfig.getLaunchMultiplier();
+        return fabricConfig.getLaunch().getVelocityMultiplier();
     }
 
     @Override
