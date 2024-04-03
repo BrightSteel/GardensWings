@@ -3,12 +3,13 @@ package com.gardensmc.wings.common.command;
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.command.exception.InvalidArgumentException;
+import com.gardensmc.wings.common.command.exception.InvalidUserException;
 import com.gardensmc.wings.common.command.exception.NoPermissionException;
 import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
-import com.gardensmc.wings.common.player.GardensPlayer;
-import com.gardensmc.wings.common.player.PlayerMessageHandler;
+import com.gardensmc.wings.common.user.OnlineUser;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
+import com.gardensmc.wings.common.user.player.UserMessageHandler;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ public class WingsCommand extends GardensCommand {
     }
 
     @Override
-    public void execute(GardensPlayer executor, String[] args) {
+    public void execute(OnlineUser executor, String[] args) {
         WingsCommandType type;
         if (args.length == 0) {
             type = WingsCommandType.GET;
@@ -50,27 +51,30 @@ public class WingsCommand extends GardensCommand {
         return super.getTabCompletion(player, args);
     }
 
-    private void getWings(GardensPlayer executor, String[] args) {
-        // permission check
-        super.execute(executor, args);
-        PlayerMessageHandler playerMessageHandler = new PlayerMessageHandler(executor);
-        if (executor.isChestplateSlotEmpty()) {
-            executor.addWingsToChestplateSlot();
-            playerMessageHandler.sendMessage("You've sprouted wings!");
+    private void getWings(OnlineUser executor, String[] args) {
+        super.execute(executor, args); // permission check
+        // player-only check
+        if (!(executor instanceof GardensPlayer gardensPlayer)) {
+            throw new InvalidUserException();
+        }
+        UserMessageHandler userMessageHandler = new UserMessageHandler(gardensPlayer);
+        if (gardensPlayer.isChestplateSlotEmpty()) {
+            gardensPlayer.addWingsToChestplateSlot();
+            userMessageHandler.sendMessage(GardensWings.getLocaleMessage("wings.get.info"));
         } else {
-            playerMessageHandler.sendError("Your chest plate slot is full!");
+            userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.get.error"));
         }
     }
 
-    private void giveWings(GardensPlayer executor, String[] args) {
+    private void giveWings(OnlineUser executor, String[] args) {
         // permission check
         if (!executor.hasPermission(WingsCommandType.GIVE.permission)) {
             throw new NoPermissionException(WingsCommandType.GIVE.permission);
         }
         // arg check
-        PlayerMessageHandler executorMessenger = new PlayerMessageHandler(executor);
+        UserMessageHandler executorMessenger = new UserMessageHandler(executor);
         if (args.length < 2) {
-            executorMessenger.sendError("Invalid arguments, should be: /wings <give> <player>");
+            executorMessenger.sendError(GardensWings.getLocaleMessage("wings.give.command.error"));
             return;
         }
         // attempt to find player target
@@ -78,20 +82,20 @@ public class WingsCommand extends GardensCommand {
         GardensPlayer player = GardensWings.getGardensServer().getPlayer(username);
         if (player != null) {
             player.addWingsToInventory();
-            new PlayerMessageHandler(player).sendMessage(executor.getUsername() + " gave you wings!");
-            executorMessenger.sendMessage(String.format("Gave %s wings", player.getUsername()));
+            new UserMessageHandler(player).sendMessage(GardensWings.getLocaleMessage("wings.give.info.receiver", executor.getUsername()));
+            executorMessenger.sendMessage(GardensWings.getLocaleMessage("wings.give.info.sender", player.getUsername()));
         } else {
             throw new PlayerNotFoundException(username);
         }
     }
 
-    private void reloadConfig(GardensPlayer executor) {
+    private void reloadConfig(OnlineUser executor) {
         // permission check
         if (!executor.hasPermission(WingsCommandType.RELOAD.permission)) {
             throw new NoPermissionException(WingsCommandType.RELOAD.permission);
         }
         GardensWings.wingsConfig.reload();
-        new PlayerMessageHandler(executor).sendMessage("Reloaded config!");
+        new UserMessageHandler(executor).sendMessage(GardensWings.getLocaleMessage("wings.config.info.reloaded"));
     }
 
     @AllArgsConstructor

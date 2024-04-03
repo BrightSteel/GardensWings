@@ -3,7 +3,8 @@ package com.gardensmc.wings.common.command;
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.exception.NoPermissionException;
 import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
-import com.gardensmc.wings.common.player.GardensPlayer;
+import com.gardensmc.wings.common.user.OnlineUser;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
 import lombok.Getter;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public abstract class GardensCommand {
      * @throws NoPermissionException if executor does not have permission
      * @throws PlayerNotFoundException if provided player cannot be found
      */
-    public void execute(GardensPlayer executor, String[] args) {
+    public void execute(OnlineUser executor, String[] args) {
         if (!executor.hasPermission(permissionNode)) {
             throw new NoPermissionException(permissionNode);
         }

@@ -4,9 +4,8 @@ import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.cooldown.Cooldowns;
 import com.gardensmc.wings.common.listener.type.PlayerListener;
-import com.gardensmc.wings.common.particle.GardensParticle;
-import com.gardensmc.wings.common.player.GardensPlayer;
-import com.gardensmc.wings.common.player.PlayerMessageHandler;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
+import com.gardensmc.wings.common.user.player.UserMessageHandler;
 
 public class PlayerSneakListener extends PlayerListener {
 
@@ -17,7 +16,7 @@ public class PlayerSneakListener extends PlayerListener {
     @Override
     public void callListener() {
         if (isGlidingWithWingsAndCanBoost() ) {
-            if (!Cooldowns.wingsBoostCooldown.hasCooldown(player.getUuid())) {
+            if (player.hasPermission(Permissions.cooldownBypassBoost) || !Cooldowns.wingsBoostCooldown.hasCooldown(player.getUuid())) {
                 // do boost
                 player.spawnParticle(GardensWings.wingsConfig.getBoostParticle());
                 player.setVelocityMultiplier(GardensWings.wingsConfig.getBoostMultiplier());
@@ -27,10 +26,10 @@ public class PlayerSneakListener extends PlayerListener {
                     Cooldowns.wingsBoostCooldown.addCooldown(player.getUuid(), cooldownInSeconds);
                 }
             } else {
-                new PlayerMessageHandler(player).sendError(String.format(
-                        "You cannot boost for %s more seconds",
-                        Cooldowns.wingsBoostCooldown.getCooldown(player.getUuid()))
-                );
+                new UserMessageHandler(player).sendError(GardensWings.getLocaleMessage(
+                        "wings.cooldown.error",
+                        String.valueOf(Cooldowns.wingsBoostCooldown.getCooldown(player.getUuid()))
+                ));
             }
         }
     }

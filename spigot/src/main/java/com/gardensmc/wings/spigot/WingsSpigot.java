@@ -4,12 +4,15 @@ import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.Commands;
 import com.gardensmc.wings.common.command.GardensCommand;
 import com.gardensmc.wings.common.command.exception.InvalidArgumentException;
+import com.gardensmc.wings.common.command.exception.InvalidUserException;
 import com.gardensmc.wings.common.command.exception.NoPermissionException;
 import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
-import com.gardensmc.wings.common.player.PlayerMessageHandler;
+import com.gardensmc.wings.common.user.OnlineUser;
+import com.gardensmc.wings.common.user.player.UserMessageHandler;
 import com.gardensmc.wings.spigot.config.SpigotConfig;
 import com.gardensmc.wings.spigot.listener.Listeners;
-import com.gardensmc.wings.spigot.player.SpigotPlayer;
+import com.gardensmc.wings.spigot.user.SpigotUserFactory;
+import com.gardensmc.wings.spigot.user.player.SpigotPlayer;
 import com.gardensmc.wings.spigot.schedule.SpigotScheduler;
 import com.gardensmc.wings.spigot.server.SpigotServer;
 import lombok.Getter;
@@ -76,23 +79,20 @@ public class WingsSpigot extends JavaPlugin {
 
     private CommandExecutor getCommandExecutor(GardensCommand gardensCommand) {
         return (sender, command, label, args) -> {
-            // todo - allow consoles to execute command?
-            if (!(sender instanceof Player player)) {
-                sender.sendMessage("Console cannot run this command!");
-                return true;
-            }
-            SpigotPlayer spigotPlayer = new SpigotPlayer(player);
-            PlayerMessageHandler playerMessageHandler = new PlayerMessageHandler(spigotPlayer);
+            OnlineUser onlineUser = SpigotUserFactory.createOnlineUser(sender);
+            UserMessageHandler userMessageHandler = new UserMessageHandler(onlineUser);
             try {
-                gardensCommand.execute(spigotPlayer, args);
+                gardensCommand.execute(onlineUser, args);
+            } catch (InvalidUserException e) {
+                userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.invalidUser"));
             } catch (NoPermissionException e) {
-                playerMessageHandler.sendError("You do not have permission to use this command!");
+                userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.noPermission"));
             } catch (InvalidArgumentException e) {
-                playerMessageHandler.sendError("Invalid argument!");
+                userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.invalidArguments"));
             } catch (PlayerNotFoundException e) {
-                playerMessageHandler.sendError(String.format("Cannot find player '%s'", e.getUsername()));
+                userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.playerNotFound", e.getUsername()));
             } catch (Exception e) {
-                playerMessageHandler.sendError("An internal server error occurred");
+                userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.unknown"));
                 plugin.getLogger().log(
                         Level.SEVERE,
                         "Failed to run command: " + command.getName(),

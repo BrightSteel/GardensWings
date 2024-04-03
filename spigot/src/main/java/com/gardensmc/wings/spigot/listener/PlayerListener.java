@@ -3,7 +3,7 @@ package com.gardensmc.wings.spigot.listener;
 import com.gardensmc.wings.common.listener.*;
 import com.gardensmc.wings.common.listener.type.Listener;
 import com.gardensmc.wings.spigot.listener.type.SpigotListener;
-import com.gardensmc.wings.spigot.player.SpigotPlayer;
+import com.gardensmc.wings.spigot.user.player.SpigotPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;

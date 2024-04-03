@@ -2,7 +2,7 @@ package com.gardensmc.wings.common.listener;
 
 import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.listener.type.PlayerListener;
-import com.gardensmc.wings.common.player.GardensPlayer;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
 
 public class PlayerGlideListener extends PlayerListener {
 

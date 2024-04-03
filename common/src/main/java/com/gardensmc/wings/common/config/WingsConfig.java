@@ -17,4 +17,5 @@ public interface WingsConfig {
     String getWingsDisplayName();
     List<String> getWingsLore();
     void reload();
+    String getLocale();
 }

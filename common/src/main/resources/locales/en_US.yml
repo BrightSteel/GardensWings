@@ -1,0 +1,10 @@
+wings.get.info: You've sprouted wings!
+wings.get.error: Your chestplate slot is full
+wings.give.info.sender: Gave %1$s wings
+wings.give.info.receiver: '%1$s gave you wings'
+wings.give.command.error: 'Invalid arguments, should be: /wings <give> <player>'
+wings.config.info.reloaded: Reloaded config!
+wings.cooldown.error: You can't boost for %1$s more seconds!
+wings.command.error.invalidArguments: Invalid arguments provided
+wings.command.error.playerNotFound: Player %1$s not found
+wings.command.error.noPermission: You do not have permission to perform this command

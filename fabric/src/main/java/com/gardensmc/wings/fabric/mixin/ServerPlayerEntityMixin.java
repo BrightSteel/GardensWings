@@ -3,7 +3,7 @@ package com.gardensmc.wings.fabric.mixin;
 import com.gardensmc.wings.common.listener.PlayerElytraCollisionListener;
 import com.gardensmc.wings.common.listener.PlayerFallDamageListener;
 import com.gardensmc.wings.common.listener.type.Listener;
-import com.gardensmc.wings.fabric.player.FabricPlayer;
+import com.gardensmc.wings.fabric.user.player.FabricPlayer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.server.network.ServerPlayerEntity;

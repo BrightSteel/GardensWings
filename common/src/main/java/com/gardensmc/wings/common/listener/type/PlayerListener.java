@@ -1,6 +1,6 @@
 package com.gardensmc.wings.common.listener.type;
 
-import com.gardensmc.wings.common.player.GardensPlayer;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
 import lombok.Getter;
 import lombok.Setter;
 

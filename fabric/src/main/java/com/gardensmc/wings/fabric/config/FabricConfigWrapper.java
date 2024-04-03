@@ -1,5 +1,6 @@
 package com.gardensmc.wings.fabric.config;
 
+import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.config.WingsConfig;
 import com.gardensmc.wings.common.particle.GardensParticle;
 import com.gardensmc.wings.fabric.WingsFabric;
@@ -81,6 +82,12 @@ public class FabricConfigWrapper implements WingsConfig {
     @Override
     public void reload() {
         loadConfig();
+        GardensWings.loadLocale(); // reload locale
+    }
+
+    @Override
+    public String getLocale() {
+        return fabricConfig.getLocale();
     }
 
     private void loadConfig() {

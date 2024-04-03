@@ -18,6 +18,7 @@ public class FabricConfig {
     private Wings wings = new Wings();
     private Boost boost = new Boost();
     private Launch launch = new Launch();
+    private String locale = "en_US";
 
     @Data
     public static class Wings {

@@ -2,12 +2,11 @@ package com.gardensmc.wings.fabric.mixin;
 
 import com.gardensmc.wings.common.listener.PlayerSneakJumpListener;
 import com.gardensmc.wings.common.listener.PlayerSneakListener;
-import com.gardensmc.wings.fabric.player.FabricPlayer;
+import com.gardensmc.wings.fabric.user.player.FabricPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.entity.EntityLike;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

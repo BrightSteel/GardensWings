@@ -1,7 +1,7 @@
 package com.gardensmc.wings.fabric.mixin;
 
 import com.gardensmc.wings.common.listener.PlayerGlideListener;
-import com.gardensmc.wings.fabric.player.FabricPlayer;
+import com.gardensmc.wings.fabric.user.player.FabricPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

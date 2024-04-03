@@ -4,7 +4,7 @@ import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.Permissions;
 import com.gardensmc.wings.common.config.WingsConfig;
 import com.gardensmc.wings.common.listener.type.PlayerListener;
-import com.gardensmc.wings.common.player.GardensPlayer;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
 
 public class PlayerSneakJumpListener extends PlayerListener {
 

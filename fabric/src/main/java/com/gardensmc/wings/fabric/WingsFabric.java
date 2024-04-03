@@ -4,13 +4,16 @@ import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.command.Commands;
 import com.gardensmc.wings.common.command.GardensCommand;
 import com.gardensmc.wings.common.command.exception.InvalidArgumentException;
+import com.gardensmc.wings.common.command.exception.InvalidUserException;
 import com.gardensmc.wings.common.command.exception.NoPermissionException;
 import com.gardensmc.wings.common.command.exception.PlayerNotFoundException;
-import com.gardensmc.wings.common.player.PlayerMessageHandler;
+import com.gardensmc.wings.common.user.OnlineUser;
+import com.gardensmc.wings.common.user.player.UserMessageHandler;
 import com.gardensmc.wings.fabric.config.FabricConfigWrapper;
-import com.gardensmc.wings.fabric.player.FabricPlayer;
+import com.gardensmc.wings.fabric.user.player.FabricPlayer;
 import com.gardensmc.wings.fabric.schedule.FabricScheduler;
 import com.gardensmc.wings.fabric.server.FabricServer;
+import com.gardensmc.wings.fabric.user.FabricUserFactory;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
@@ -21,7 +24,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,26 +59,23 @@ public class WingsFabric implements ModInitializer {
     }
 
     private int executeCommand(GardensCommand gardensCommand, CommandContext<ServerCommandSource> context) {
-        ServerPlayerEntity serverPlayer = context.getSource().getPlayer();
-        if (serverPlayer == null) {
-            context.getSource().sendMessage(Text.of("Console cannot run this command!"));
-        } else {
-            String[] fullArgs = context.getInput().split(" "); // arg array with size >= 1
-            String[] args = Arrays.copyOfRange(fullArgs, 1, fullArgs.length); // remove command name from arg
-            FabricPlayer fabricPlayer = new FabricPlayer(serverPlayer);
-            PlayerMessageHandler playerMessageHandler = new PlayerMessageHandler(fabricPlayer);
-            try {
-                gardensCommand.execute(fabricPlayer, args);
-            } catch (InvalidArgumentException e) {
-                playerMessageHandler.sendError("Invalid argument!");
-            } catch (NoPermissionException e) {
-                playerMessageHandler.sendError("You do not have permission to use this command!");
-            } catch (PlayerNotFoundException e) {
-                playerMessageHandler.sendError(String.format("Cannot find player '%s'", e.getUsername()));
-            } catch (Exception e) {
-                playerMessageHandler.sendError("An internal server error occurred");
-                LOGGER.error("Failed to run command: " + gardensCommand.getName(), e);
-            }
+        OnlineUser onlineUser = FabricUserFactory.createOnlineUser(context.getSource());
+        String[] fullArgs = context.getInput().split(" "); // arg array with size >= 1
+        String[] args = Arrays.copyOfRange(fullArgs, 1, fullArgs.length); // remove command name from arg
+        UserMessageHandler userMessageHandler = new UserMessageHandler(onlineUser);
+        try {
+            gardensCommand.execute(onlineUser, args);
+        } catch (InvalidUserException e) {
+            userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.invalidUser"));
+        } catch (NoPermissionException e) {
+            userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.noPermission"));
+        } catch (InvalidArgumentException e) {
+            userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.invalidArguments"));
+        } catch (PlayerNotFoundException e) {
+            userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.playerNotFound", e.getUsername()));
+        } catch (Exception e) {
+            userMessageHandler.sendError(GardensWings.getLocaleMessage("wings.command.error.unknown"));
+            LOGGER.error("Failed to run command: " + gardensCommand.getName(), e);
         }
         return 1;
     }

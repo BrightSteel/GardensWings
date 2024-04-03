@@ -28,3 +28,4 @@ wings:
     - "<!italic><blue>Cushioning</blue>"
   unbreakable: true # whether wings should have unbreakable property
   enchantGlint: true
+locale: en_US

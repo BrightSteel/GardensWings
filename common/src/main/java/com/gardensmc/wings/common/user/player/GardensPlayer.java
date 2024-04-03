@@ -1,6 +1,7 @@
-package com.gardensmc.wings.common.player;
+package com.gardensmc.wings.common.user.player;
 
 import com.gardensmc.wings.common.particle.GardensParticle;
+import com.gardensmc.wings.common.user.OnlineUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public abstract class GardensPlayer {
+public abstract class GardensPlayer implements OnlineUser {
 
     private UUID uuid;
     private String username;

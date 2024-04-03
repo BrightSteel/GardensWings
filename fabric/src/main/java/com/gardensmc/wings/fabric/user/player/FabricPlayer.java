@@ -1,8 +1,8 @@
-package com.gardensmc.wings.fabric.player;
+package com.gardensmc.wings.fabric.user.player;
 
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.particle.GardensParticle;
-import com.gardensmc.wings.common.player.GardensPlayer;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
 import com.gardensmc.wings.common.util.ChatUtil;
 import com.gardensmc.wings.fabric.particle.ParticleAdapter;
 import com.gardensmc.wings.fabric.wings.WingsFactory;
@@ -10,7 +10,6 @@ import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;

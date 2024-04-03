@@ -1,5 +1,6 @@
 package com.gardensmc.wings.spigot.config;
 
+import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.config.WingsConfig;
 import com.gardensmc.wings.common.particle.GardensParticle;
 import com.gardensmc.wings.spigot.WingsSpigot;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 public class SpigotConfig implements WingsConfig {
 
-    private final Configuration configuration;
+    private Configuration configuration;
 
     public SpigotConfig() {
         configuration = WingsSpigot.getPlugin().getConfig();
@@ -88,6 +89,14 @@ public class SpigotConfig implements WingsConfig {
     @Override
     public void reload() {
         WingsSpigot.getPlugin().reloadConfig();
+        configuration = WingsSpigot.getPlugin().getConfig();
+
+        GardensWings.loadLocale(); // reload locale
+    }
+
+    @Override
+    public String getLocale() {
+        return configuration.getString("locale");
     }
 
     private GardensParticle getGardensParticle(ConfigurationSection particleSection) {

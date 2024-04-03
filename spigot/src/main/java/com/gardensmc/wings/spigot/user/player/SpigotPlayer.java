@@ -1,8 +1,8 @@
-package com.gardensmc.wings.spigot.player;
+package com.gardensmc.wings.spigot.user.player;
 
 import com.gardensmc.wings.common.GardensWings;
 import com.gardensmc.wings.common.particle.GardensParticle;
-import com.gardensmc.wings.common.player.GardensPlayer;
+import com.gardensmc.wings.common.user.player.GardensPlayer;
 import com.gardensmc.wings.common.util.ChatUtil;
 import com.gardensmc.wings.spigot.WingsSpigot;
 import com.gardensmc.wings.spigot.particle.ParticleAdapter;
